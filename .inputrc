@@ -1,0 +1,6 @@
+# Enables history up and down arrows, but you can type the first part of the command to narrow results
+# Pressing up or down will only show results based off what you have already typed
+  "\e[A": history-search-backward
+  "\e[B": history-search-forward
+  set show-all-if-ambiguous on
+  set completion-ignore-case on
