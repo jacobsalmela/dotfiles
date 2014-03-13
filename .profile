@@ -27,7 +27,7 @@
 	ethernetID="en0"	
 	
 	# Put static IPv4 with subnet mask here
-	ethernetIP="10.170.1.50 255.255.0.0"
+	ethernetIP="10.x.x.x 255.255.0.0"
 		
 #----------FUNCTIONS---------
 #######################
