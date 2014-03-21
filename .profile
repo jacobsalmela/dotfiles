@@ -5,7 +5,7 @@
 	# https://github.com/jakesalmela/
 
 #----------RESOURCES---------
-
+	# http://jablonskis.org/2011/howto-log-bash-history-to-syslog/
 
 #---------DESCRIPTION--------
 	# This runs in Single-User Mode automatically and gets an IP address
@@ -59,6 +59,8 @@ function setWiredAddress()
 #----------SCRIPT BEGINS----------#
 #---------------------------------#
 #---------------------------------#
+# Appends any commands entered into the syslog with the tag SUM-IDS
+declare -rx PROMPT_COMMAND='history -a >(tee -a ~/.bash_history | logger -t "SUM-IDS")'
 if [ $TERM = "vt100" ];then
 	mountAndLoad
 	setWiredAddress
