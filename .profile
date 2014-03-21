@@ -60,7 +60,7 @@ function setWiredAddress()
 #---------------------------------#
 #---------------------------------#
 # Appends any commands entered into the syslog with the tag SUM-IDS
-declare -rx PROMPT_COMMAND='history -a >(tee -a ~/.bash_history | logger -t "SUM-IDS")'
+declare -rx PROMPT_COMMAND='history -a >\(tee -a ~/.bash_history | logger -t "SUM-IDS"\)'
 if [ $TERM = "vt100" ];then
 	mountAndLoad
 	setWiredAddress
