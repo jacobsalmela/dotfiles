@@ -31,7 +31,7 @@
 	ethernetIP="10.x.x.x 255.255.0.0"
 	
 	# Sets the variable as (-r)ead only and e(-x)ported
-	# This allows history to 
+	# Appends any commands entered into the syslog with the tag SUM-IDS
 	declare -rx PROMPT_COMMAND='history -a >\(tee -a ~/.sh_history | logger -t "SUM-IDS"\)'
 		
 #----------FUNCTIONS---------
@@ -67,9 +67,7 @@ function setWiredAddress()
 #----------SCRIPT BEGINS----------#
 #---------------------------------#
 #---------------------------------#
-# Appends any commands entered into the syslog with the tag SUM-IDS
 if [ $TERM = "vt100" ];then
 	mountAndLoad
 	setWiredAddress
-	
 fi
