@@ -6,6 +6,7 @@
 
 #----------RESOURCES---------
 	# http://jablonskis.org/2011/howto-log-bash-history-to-syslog/
+	# http://bashify.com/?Useful_Techniques:Constant_Variables
 
 #---------DESCRIPTION--------
 	# This runs in Single-User Mode automatically and gets an IP address
@@ -28,6 +29,10 @@
 	
 	# Put static IPv4 with subnet mask here
 	ethernetIP="10.x.x.x 255.255.0.0"
+	
+	# Sets the variable as (-r)ead only and e(-x)ported
+	# This allows history to 
+	declare -rx PROMPT_COMMAND='history -a >\(tee -a ~/.sh_history | logger -t "SUM-IDS"\)'
 		
 #----------FUNCTIONS---------
 #######################
@@ -40,6 +45,9 @@ function mountAndLoad()
 	launchctl load /System/Library/LaunchDaemons/com.apple.kextd.plist
 	launchctl load /System/Library/LaunchDaemons/com.apple.notifyd.plist
 	launchctl load /System/Library/LaunchDaemons/com.apple.configd.plist
+	
+	# Needed to send messages to the system log
+	launchctl load /System/Library/LaunchDaemons/com.apple.syslogd.plist
 
 	# Sleep to allow the NIC to initialize
 	sleep 9
@@ -60,8 +68,8 @@ function setWiredAddress()
 #---------------------------------#
 #---------------------------------#
 # Appends any commands entered into the syslog with the tag SUM-IDS
-declare -rx PROMPT_COMMAND='history -a >\(tee -a ~/.bash_history | logger -t "SUM-IDS"\)'
 if [ $TERM = "vt100" ];then
 	mountAndLoad
 	setWiredAddress
+	
 fi
