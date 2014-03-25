@@ -29,10 +29,6 @@
 	
 	# Put static IPv4 with subnet mask here
 	ethernetIP="10.x.x.x 255.255.0.0"
-	
-	# Sets the variable as (-r)ead only and e(-x)ported
-	# Appends any commands entered into the syslog with the tag SUM-IDS
-	declare -rx PROMPT_COMMAND='history -a >\(tee -a ~/.sh_history | logger -t "SUM-IDS"\)'
 		
 #----------FUNCTIONS---------
 #######################
@@ -45,13 +41,12 @@ function mountAndLoad()
 	launchctl load /System/Library/LaunchDaemons/com.apple.kextd.plist
 	launchctl load /System/Library/LaunchDaemons/com.apple.notifyd.plist
 	launchctl load /System/Library/LaunchDaemons/com.apple.configd.plist
+
+	# Sleep to allow the NIC to initialize
+	sleep 15
 	
 	# Needed to send messages to the system log
 	launchctl load /System/Library/LaunchDaemons/com.apple.syslogd.plist
-
-	# Sleep to allow the NIC to initialize
-	sleep 9
-	clear
 	}
 
 ##########################
@@ -59,7 +54,6 @@ function setWiredAddress()
 	{
 	# Set a static IP
 	ipconfig set $ethernetID INFORM $ethernetIP	
-		
 	}
 	
 #---------------------------------#
@@ -70,4 +64,6 @@ function setWiredAddress()
 if [ $TERM = "vt100" ];then
 	mountAndLoad
 	setWiredAddress
+	# Appends any commands entered into the syslog with the tag SUM-IDS
+	PROMPT_COMMAND='history -a;tail -n1 ~/.sh_history | logger -t SUM-IDS'
 fi
