@@ -30,6 +30,12 @@
 	# Put static IPv4 with subnet mask here
 	ethernetIP="10.x.x.x 255.255.0.0"
 		
+	# Organization name (reverse-domain plist format)
+	orgName="org.hopkinsschools.casper"
+	
+	# Capture date for storing in custom plist
+	currentDate=$(date "+%Y-%m-%d %H:%M:%S")
+	
 #----------FUNCTIONS---------
 #######################
 function mountAndLoad()
@@ -56,6 +62,32 @@ function setWiredAddress()
 	ipconfig set $ethernetID INFORM $ethernetIP	
 	}
 	
+##########################
+function setPromptCommand()
+	{
+	# Appends any commands entered into the syslog with the tag SUM-IDS
+	PROMPT_COMMAND='history -a;tail -n1 ~/.sh_history | logger -t SUM-IDS'
+	}
+	
+##########################
+function logDateInPlist()
+	{
+	# Delete previous value if it exits
+	/usr/libexec/PlistBuddy -c "Print :SingleUserModeAccessedOn" /Library/Preferences/"$orgName".plist &>/dev/null
+	
+	# If the last command exited with 0 (meaning the key exists)
+	if [ $? = 0 ];then
+		# Delete previous value and write in the updated date
+		/usr/libexec/PlistBuddy -c "Delete :SingleUserModeAccessedOn" /Library/Preferences/"$orgName".plist &>/dev/null
+		/usr/libexec/PlistBuddy -c "Add :SingleUserModeAccessedOn string '$currentDate'" /Library/Preferences/"$orgName".plist &>/dev/null	
+		
+	else
+	
+		# Otherwise, create an entry with the current date
+		/usr/libexec/PlistBuddy -c "Add :SingleUserModeAccessedOn string '$currentDate'" /Library/Preferences/"$orgName".plist &>/dev/null
+	fi
+	}
+	
 #---------------------------------#
 #---------------------------------#
 #----------SCRIPT BEGINS----------#
@@ -64,6 +96,6 @@ function setWiredAddress()
 if [ $TERM = "vt100" ];then
 	mountAndLoad
 	setWiredAddress
-	# Appends any commands entered into the syslog with the tag SUM-IDS
-	PROMPT_COMMAND='history -a;tail -n1 ~/.sh_history | logger -t SUM-IDS'
+	setPromptCommand
+	logDateInPlist
 fi
