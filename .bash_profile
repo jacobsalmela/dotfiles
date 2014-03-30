@@ -13,6 +13,15 @@ export PROMPT_COMMAND='history -a'
 # Add a timestamp to the history entries
 HISTTIMEFORMAT="%y-%m-%d %T "
 
+# Delete duplicate commands
+HISTCONTROL="erasedups:ignoreboth"
+
+# Append history
+shopt -s histappend
+
+# Save multi-line commands as one line in history
+shopt -s cmdhist
+
 #######################
 ##### ALIASES #########
 #######################
