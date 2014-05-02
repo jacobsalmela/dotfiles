@@ -31,7 +31,7 @@
 	ethernetIP="10.x.x.x 255.255.0.0"
 		
 	# Organization name (reverse-domain plist format)
-	orgName="org.hopkinsschools.casper"
+	orgName="org.enterprise.casper"
 	
 	# Capture date for storing in custom plist
 	currentDate=$(date "+%Y-%m-%d %H:%M:%S")
