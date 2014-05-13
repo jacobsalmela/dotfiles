@@ -68,6 +68,28 @@ function setPromptCommand()
 	# Appends any commands entered into the syslog with the tag SUM-IDS
 	PROMPT_COMMAND='history -a;tail -n1 ~/.sh_history | logger -t SUM-IDS'
 	}
+
+################################
+function loadAdditionalDaemons()
+	{
+	sleep 5
+	# Possible daemons needed to enable SSH
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.distnoted.xpc.daemon.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.securityd.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.securityd_service.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.opendirectoryd.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.dnsextd.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.Kerberos.digest-service.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.Kerberos.kadmind.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.Kerberos.kcm.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.Kerberos.kdc.plist
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.Kerberos.kpasswdd.plist
+	
+	# Load SSH
+	launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+	
+	echo "Outbound SSH is now enabled."
+	}
 	
 ##########################
 function logDateInPlist()
@@ -97,5 +119,6 @@ if [ $TERM = "vt100" ];then
 	mountAndLoad
 	setWiredAddress
 	setPromptCommand
+	loadAdditionalDaemons
 	logDateInPlist
 fi
