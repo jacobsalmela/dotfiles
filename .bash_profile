@@ -1,6 +1,3 @@
-# Custom prompt
-PS1="\u in \W \A"
-
 #######################
 ##### HISTORY #########
 #######################
@@ -11,7 +8,7 @@ HISTFILESIZE=65535
 export PROMPT_COMMAND='history -a'
 
 # Add a timestamp to the history entries
-HISTTIMEFORMAT="%y-%m-%d %T "
+HISTTIMEFORMAT="%Y-%m-%d %T "
 
 # Delete duplicate commands
 HISTCONTROL="erasedups:ignoreboth"
@@ -27,6 +24,13 @@ shopt -s cmdhist
 #######################
 # Long listing
 alias ll='ls -l'
+
+# Make directory and move into it (creating parent directories if they do not exist).
+md () { mkdir -p "$@" && cd "$@"; }
+
+# Show or hide all files
+alias showall='defaults write com.apple.finder AppleShowAllFiles TRUE;killall Finder'
+alias hideall='defaults write com.apple.finder AppleShowAllFiles FALSE;killall Finder'
 	
 # Find the current gateway (router)
 alias gw='netstat -rn | awk '/default/ {print $2}''
@@ -57,6 +61,9 @@ alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/C
 	
 # View open network connections
 alias lsn='lsof -i | grep ESTABLISHED'
+
+# Click
+function clik() { /usr/bin/click -x "$1" -y "$2" ;}
 	
 # View most used commands
 muc='history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head -15'
