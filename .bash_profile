@@ -34,7 +34,7 @@ alias showall='defaults write com.apple.finder AppleShowAllFiles TRUE;killall Fi
 alias hideall='defaults write com.apple.finder AppleShowAllFiles FALSE;killall Finder'
 	
 # Find the current gateway (router)
-alias gw='netstat -rn | awk '/default/ {print $2}''
+alias gw="netstat -rn | awk '/default/ {print $2}'"
 	
 # Delete the last command
 alias dlc='history -d $((HISTCMD-1))'
