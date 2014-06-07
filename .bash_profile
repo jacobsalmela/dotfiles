@@ -20,6 +20,18 @@ shopt -s histappend
 shopt -s cmdhist
 
 #######################
+####### SHOPT #########
+#######################
+# Tab-completion of hostnames
+shopt -s hostcomplete  
+
+# Try to correct spelling errors when using cd
+shopt -s cdspell
+
+# Aave multi-line commands to one history entry
+shopt -s cmdhist
+
+#######################
 ##### ALIASES #########
 #######################
 # Long listing
