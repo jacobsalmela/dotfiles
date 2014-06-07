@@ -23,6 +23,7 @@ shopt -s cmdhist
 ##### ALIASES #########
 #######################
 # Long listing
+alias ls='ls -GFh'
 alias ll='ls -l'
 
 # Make directory and move into it (creating parent directories if they do not exist).
@@ -67,6 +68,23 @@ function clik() { /usr/bin/click -x "$1" -y "$2" ;}
 	
 # View most used commands
 muc='history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head -15'
+
+# Plistbuddy
+alias plistbuddy='sudo /usr/libexec/PlistBuddy'
+
+# http://hints.macworld.com/comment.php?mode=view&cid=24491
+export BLOCKSIZE=1k
+
+# Faster navigation
+alias ..='cd ../'                           
+alias ...='cd ../../'
+
+# QuickLook
+ql () { qlmanage -p "$*" >& /dev/null; }
+
+# Roll-your-own tree command
+alias tree='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
+
 
 ############################################ 
 # Modified from emilis bash prompt script 
